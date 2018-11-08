@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * @author Santiago Carrillo
  */
-
 public abstract class BaseEntity
     implements Serializable
 {
