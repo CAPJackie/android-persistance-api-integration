@@ -57,7 +57,19 @@ public class MainActivity
                     //Network request code goes here
                     RetrofitNetwork retrofitObject = new RetrofitNetwork();
                     RequestCallback<List<Team>> rc = new RequestCallbackImpl();
-                    retrofitObject.getTeams(rc);
+                    retrofitObject.getTeams(new RequestCallback<List<Team>(){
+
+
+
+                        @Override void onSuccess(List<Team> response ){
+
+                        }
+
+                        @Override void onFailed( NetworkException e ){
+
+
+                        }
+                    });
                 }
                 catch ( IOException e )
                 {
