@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,8 +13,8 @@ import co.edu.pdam.eci.persistenceapiintegration.AppDatabase;
 import co.edu.pdam.eci.persistenceapiintegration.R;
 import co.edu.pdam.eci.persistenceapiintegration.data.entity.Team;
 import co.edu.pdam.eci.persistenceapiintegration.data.network.RequestCallback;
-import co.edu.pdam.eci.persistenceapiintegration.data.network.RequestCallbackImpl;
 import co.edu.pdam.eci.persistenceapiintegration.data.network.RetrofitNetwork;
+import co.edu.pdam.eci.persistenceapiintegration.data.network.NetworkException;
 
 public class MainActivity
     extends AppCompatActivity
@@ -56,18 +54,18 @@ public class MainActivity
                 {
                     //Network request code goes here
                     RetrofitNetwork retrofitObject = new RetrofitNetwork();
-                    RequestCallback<List<Team>> rc = new RequestCallbackImpl();
-                    retrofitObject.getTeams(new RequestCallback<List<Team>(){
+                    retrofitObject.getTeams(new RequestCallback<List<Team>>(){
 
 
 
-                        @Override void onSuccess(List<Team> response ){
-
+                        @Override public void onSuccess(List<Team> response ){
+                            for(Team t: response){
+                                System.out.println(t.id + "NAME: " + t.shortName);
+                            }
                         }
 
-                        @Override void onFailed( NetworkException e ){
-
-
+                        @Override public void onFailed( NetworkException e ){
+                                e.printStackTrace();
                         }
                     });
                 }
