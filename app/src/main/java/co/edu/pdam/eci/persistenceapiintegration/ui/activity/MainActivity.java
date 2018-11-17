@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import butterknife.ButterKnife;
 import co.edu.pdam.eci.persistenceapiintegration.AppDatabase;
 import co.edu.pdam.eci.persistenceapiintegration.R;
 import co.edu.pdam.eci.persistenceapiintegration.data.entity.Team;
@@ -23,16 +24,24 @@ public class MainActivity
     extends AppCompatActivity
 {
 
-    private final TeamsAdapter teamsAdapter = new TeamsAdapter();
+    
+
 
     RecyclerView recyclerView;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+
+    List<Team> data;
+
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+        //ButterKnife.bind(this);
         configureRecyclerView();
+        init();
 
         /*AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "laboratorio_db").allowMainThreadQueries().build();
@@ -49,6 +58,10 @@ public class MainActivity
 
 
 
+
+    }
+
+    private void init() {
         ExecutorService executorService = Executors.newFixedThreadPool( 1 );
 
         executorService.execute( new Runnable()
@@ -65,14 +78,12 @@ public class MainActivity
 
 
                         @Override public void onSuccess(List<Team> response ){
-                            for(Team t: response){
-                                System.out.println(t.id + "NAME: " + t.shortName);
-                            }
+                            data = response;
 
                         }
 
                         @Override public void onFailed( NetworkException e ){
-                                e.printStackTrace();
+                            e.printStackTrace();
                         }
                     });
                 }
@@ -89,8 +100,9 @@ public class MainActivity
     {
         recyclerView = (RecyclerView) findViewById( R.id.recyclerView );
         recyclerView.setHasFixedSize( true );
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( this );
-        recyclerView.setLayoutManager( layoutManager );
-        recyclerView.setAdapter( new TeamsAdapter() );
+        mLayoutManager = new LinearLayoutManager( this );
+        recyclerView.setLayoutManager( mLayoutManager );
+        mAdapter = new TeamsAdapter(data);
+        recyclerView.setAdapter( mAdapter );
     }
 }

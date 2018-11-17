@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/logo"
+        <TextView
+            android:id="@+id/imageUrl"
             android:layout_width="50dp"
             android:layout_height="50dp"
             tools:src="@drawable/ic_launcher" />
